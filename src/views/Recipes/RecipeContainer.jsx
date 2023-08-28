@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import CardMedia from "@mui/material/CardMedia";
 import Skeleton from "@mui/material/Skeleton";
+import { Box } from "@mui/material";
+import DBRecipeDialogButton from "./Buttons/DBRecipe.DialogButton";
 
 class RecipeContainer extends PureComponent {
   render() {
@@ -25,7 +27,6 @@ class RecipeContainer extends PureComponent {
         isRefreshing,
       },
     } = this.props;
-    console.log(randomRecipe);
     return (
       <>
         <span
@@ -40,6 +41,7 @@ class RecipeContainer extends PureComponent {
           >
             <AutorenewIcon />
           </Button>
+          <DBRecipeDialogButton />
         </span>
         {!isRefreshing ? (
           <>

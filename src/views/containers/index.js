@@ -1,4 +1,4 @@
-import NoteViewContainer from "./NoteViewContainer";
+import NoteViewContainer from "../Notes/NoteViewContainer";
 import MainContainer from "./MainContainer";
-import RecipeContainer from "./RecipeContainer";
+import RecipeContainer from "../Recipes/RecipeContainer";
 export { NoteViewContainer, MainContainer, RecipeContainer };

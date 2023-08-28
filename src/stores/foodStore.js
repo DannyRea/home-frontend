@@ -3,7 +3,9 @@ import { makeAutoObservable, runInAction } from "mobx";
 
 export default class FoodStore {
   recipe = {};
+  dbRecipes = [];
   isRefreshing = false;
+  dialogOpen = false;
   constructor(rootStore) {
     this.rootStore = rootStore;
     makeAutoObservable(this, {
@@ -11,12 +13,37 @@ export default class FoodStore {
     });
 
     this.refresh();
+    this.getDbRecipes();
   }
 
   getRandomRecipe = async () => {
     const recipeData = await axios.get("http://127.0.0.1:8000/random-recipe");
     runInAction(() => {
       this.recipe = recipeData.data.meals[0];
+      console.log(this.recipe);
+    });
+  };
+
+  getDbRecipes = async () => {
+    const dbRecipes = await axios
+      .get("http://127.0.0.1:8000/recipes")
+      .then((result) => {
+        if (result?.data) {
+          runInAction(() => {
+            this.dbRecipes = result.data;
+            console.log(this.dbRecipes);
+          });
+        }
+      });
+  };
+
+  setDialogOpen = () => {
+    this.dialogOpen = !this.dialogOpen;
+  };
+
+  setRandomRecipe = (recipe) => {
+    runInAction(() => {
+      this.recipe = recipe;
     });
   };
 
@@ -36,8 +63,8 @@ export default class FoodStore {
 
   get ingredientsAndMeasurements() {
     if (!Object.keys(this.recipe)) return {};
-
-    return Object.entries(this.recipe)
+    console.log(this.recipe);
+    const measurements = Object.keys(this.recipe)
       .slice()
       .map((recipe, index) => {
         if (this.recipe[`strIngredient${index + 1}`]) {
@@ -49,5 +76,6 @@ export default class FoodStore {
         }
       })
       .filter((value) => value);
+    return measurements;
   }
 }
