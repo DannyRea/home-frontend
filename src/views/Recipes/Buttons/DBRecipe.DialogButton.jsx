@@ -9,7 +9,7 @@ import { inject, observer } from "mobx-react";
 class DBRecipeDialogButton extends PureComponent {
   render() {
     const {
-      foodStore: { dialogOpen, setDialogOpen },
+      recipeStore: { dialogOpen, setDialogOpen },
     } = this.props;
     return (
       <>
@@ -31,4 +31,4 @@ class DBRecipeDialogButton extends PureComponent {
   }
 }
 
-export default inject("foodStore")(observer(DBRecipeDialogButton));
+export default inject("recipeStore")(observer(DBRecipeDialogButton));

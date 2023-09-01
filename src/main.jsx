@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       nasaStore={rootStore.nasaStore}
       postItStore={rootStore.postItStore}
       routerViewStore={rootStore.routerViewStore}
-      foodStore={rootStore.foodStore}
+      recipeStore={rootStore.recipeStore}
     >
       <RouterContext.Provider value={routerStore}>
         <App />

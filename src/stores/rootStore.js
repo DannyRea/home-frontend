@@ -3,7 +3,7 @@ import { RouterStore, createRouterState } from "mobx-state-router";
 import NasaStore from "./nasaStore";
 import PostItStore from "./postItStore";
 import RouterViewStore from "./routerViewStore";
-import FoodStore from "./foodStore";
+import RecipeStore from "./recipeStore";
 import routes from "../config/routes";
 export class RootStore {
   constructor() {
@@ -12,6 +12,6 @@ export class RootStore {
     this.nasaStore = new NasaStore(this);
     this.postItStore = new PostItStore(this);
     this.routerViewStore = new RouterViewStore(this);
-    this.foodStore = new FoodStore(this);
+    this.recipeStore = new RecipeStore(this);
   }
 }

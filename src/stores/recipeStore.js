@@ -1,7 +1,7 @@
 import axios from "axios";
 import { makeAutoObservable, runInAction } from "mobx";
 
-export default class FoodStore {
+export default class RecipeStore {
   recipe = {};
   dbRecipes = [];
   isRefreshing = false;
@@ -13,7 +13,7 @@ export default class FoodStore {
     });
 
     this.refresh();
-    this.getDbRecipes();
+    this.refreshDbRecipes();
   }
 
   getRandomRecipe = async () => {
@@ -24,16 +24,26 @@ export default class FoodStore {
     });
   };
 
-  getDbRecipes = async () => {
+  refreshDbRecipes = async () => {
     const dbRecipes = await axios
-      .get("http://127.0.0.1:8000/recipes")
+      .get("http://127.0.0.1:8000/recipes/")
       .then((result) => {
         if (result?.data) {
           runInAction(() => {
-            this.dbRecipes = result.data;
-            console.log(this.dbRecipes);
+            console.log("result.data", result.data);
+            this.dbRecipes = result.data.sort((a, b) =>
+              a.strMeal.localeCompare(b.strMeal)
+            );
           });
         }
+      });
+  };
+
+  deleteDbRecipe = async (id) => {
+    await axios
+      .delete(`http://127.0.0.1:8000/recipes/${id}`)
+      .then(async (result) => {
+        await this.refreshDbRecipes();
       });
   };
 
@@ -52,8 +62,9 @@ export default class FoodStore {
       this.isRefreshing = true;
     });
     await this.getRandomRecipe().then(() => {
-      runInAction(() => {
+      runInAction(async () => {
         this.isRefreshing = false;
+        await this.refreshDbRecipes();
       });
     });
   };

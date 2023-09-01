@@ -20,7 +20,7 @@ import DBRecipeDialogButton from "./Buttons/DBRecipe.DialogButton";
 class RecipeContainer extends PureComponent {
   render() {
     const {
-      foodStore: {
+      recipeStore: {
         randomRecipe,
         ingredientsAndMeasurements,
         refresh,
@@ -92,7 +92,7 @@ class RecipeContainer extends PureComponent {
         ) : (
           <Skeleton
             variant="rectangular"
-            width={window.innerWidth - 750}
+            width={window.width}
             height={window.innerHeight}
           />
         )}
@@ -100,4 +100,4 @@ class RecipeContainer extends PureComponent {
     );
   }
 }
-export default inject("foodStore")(observer(RecipeContainer));
+export default inject("recipeStore")(observer(RecipeContainer));
