@@ -24,12 +24,10 @@ class DBRecipeBrowseDialog extends PureComponent {
   }
 
   setBgColor = (props) => {
-    console.log(props);
     const { type } = props;
 
     this.bgcolor =
       String(type) === "mouseenter" ? "#9aacb2" : "background.paper";
-    console.log(this.bgcolor);
   };
 
   render() {

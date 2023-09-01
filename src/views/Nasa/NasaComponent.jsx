@@ -7,7 +7,6 @@ class NasaComponent extends PureComponent {
     const {
       nasaStore: { apodImage },
     } = this.props;
-    console.log(this.props);
     return (
       <span>
         <h1>APOD</h1>

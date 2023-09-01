@@ -21,8 +21,6 @@ const routerStore = rootStore.routerStore;
 const historyAdapter = new HistoryAdapter(routerStore, browserHistory);
 historyAdapter.observeRouterStateChanges();
 
-console.log(routerStore);
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider

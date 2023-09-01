@@ -20,7 +20,6 @@ export default class RecipeStore {
     const recipeData = await axios.get("http://127.0.0.1:8000/random-recipe");
     runInAction(() => {
       this.recipe = recipeData.data.meals[0];
-      console.log(this.recipe);
     });
   };
 
@@ -30,7 +29,6 @@ export default class RecipeStore {
       .then((result) => {
         if (result?.data) {
           runInAction(() => {
-            console.log("result.data", result.data);
             this.dbRecipes = result.data.sort((a, b) =>
               a.strMeal.localeCompare(b.strMeal)
             );

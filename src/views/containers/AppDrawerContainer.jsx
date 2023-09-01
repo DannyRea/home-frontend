@@ -51,7 +51,6 @@ class AppDrawerContainer extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const {
       routerViewStore: { currentRoute },
     } = this.props;
