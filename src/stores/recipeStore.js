@@ -11,9 +11,6 @@ export default class RecipeStore {
     makeAutoObservable(this, {
       rootStore: false,
     });
-
-    this.refresh();
-    this.refreshDbRecipes();
   }
 
   getRandomRecipe = async () => {

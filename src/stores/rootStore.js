@@ -8,7 +8,7 @@ import routes from "../config/routes";
 export class RootStore {
   constructor() {
     const notFound = createRouterState("notFound");
-    this.routerStore = new RouterStore(routes, notFound);
+    this.routerStore = new RouterStore(routes, notFound, { rootStore: this });
     this.nasaStore = new NasaStore(this);
     this.postItStore = new PostItStore(this);
     this.routerViewStore = new RouterViewStore(this);

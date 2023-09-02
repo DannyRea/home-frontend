@@ -8,8 +8,6 @@ export default class {
     makeAutoObservable(this, {
       rootStore: false,
     });
-
-    this.getApod();
   }
   getApod = async () => {
     await axios.get("http://127.0.0.1:8000/apod").then((result) => {
