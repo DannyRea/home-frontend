@@ -22,7 +22,7 @@ export default class RecipeStore {
 
   refreshDbRecipes = async () => {
     const dbRecipes = await axios
-      .get("http://127.0.0.1:8000/recipes/")
+      .get("http://127.0.0.1:8000/recipes")
       .then((result) => {
         if (result?.data) {
           runInAction(() => {
