@@ -123,7 +123,7 @@ class AppDrawerContainer extends React.PureComponent {
           sx={{
             flexGrow: 1,
             p: 3,
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            minWidth: "fit-content",
           }}
         >
           <RouterView viewMap={viewMap} />

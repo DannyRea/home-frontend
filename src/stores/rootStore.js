@@ -5,6 +5,7 @@ import PostItStore from "./postItStore";
 import RouterViewStore from "./routerViewStore";
 import RecipeStore from "./recipeStore";
 import ConnectionStore from "./connectionStore";
+import CalenderStore from "./calenderStore";
 import routes from "../config/routes";
 import { io } from "socket.io-client";
 
@@ -20,5 +21,6 @@ export class RootStore {
     this.postItStore = new PostItStore(this);
     this.routerViewStore = new RouterViewStore(this);
     this.recipeStore = new RecipeStore(this);
+    this.calenderStore = new CalenderStore(this);
   }
 }

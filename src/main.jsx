@@ -31,6 +31,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       routerViewStore={rootStore.routerViewStore}
       recipeStore={rootStore.recipeStore}
       connectionStore={rootStore.connectionStore}
+      calenderStore={rootStore.calenderStore}
     >
       <RouterContext.Provider value={routerStore}>
         <App />
