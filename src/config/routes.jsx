@@ -20,8 +20,8 @@ const routes = [
     },
   },
   {
-    name: "Post-It Board",
-    pattern: "/post-it-board",
+    name: "Notes",
+    pattern: "/notes",
     icon: <NoteAltIcon />,
   },
   {

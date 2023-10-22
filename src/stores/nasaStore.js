@@ -1,7 +1,7 @@
 import axios from "axios";
 import { makeAutoObservable, runInAction } from "mobx";
 
-export default class {
+export default class NasaStore {
   apodImage = null;
   constructor(rootStore) {
     this.rootStore = rootStore;

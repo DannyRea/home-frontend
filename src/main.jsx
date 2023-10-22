@@ -2,6 +2,7 @@ import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import Box from "@mui/material/Box";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 import { RootStore } from "./stores/rootStore.js";
 import { Provider } from "mobx-react";
@@ -32,9 +33,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       recipeStore={rootStore.recipeStore}
       connectionStore={rootStore.connectionStore}
       calenderStore={rootStore.calenderStore}
+      noteStore={rootStore.noteStore}
+      notificationStore={rootStore.notificationStore}
     >
       <RouterContext.Provider value={routerStore}>
-        <App />
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
       </RouterContext.Provider>
     </Provider>
   </React.StrictMode>

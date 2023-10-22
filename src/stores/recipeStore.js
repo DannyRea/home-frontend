@@ -6,10 +6,18 @@ export default class RecipeStore {
   dbRecipes = [];
   isRefreshing = false;
   dialogOpen = false;
+  dbData = [];
   constructor(rootStore) {
     this.rootStore = rootStore;
+    this.socket = this.rootStore.connectionStore.socket;
     makeAutoObservable(this, {
       rootStore: false,
+    });
+    this.socket.on("recipeEntities", (data) => {
+      console.log("recalculatring dbData");
+      runInAction(() => {
+        this.dbData = [...data.data];
+      });
     });
   }
 
@@ -21,25 +29,22 @@ export default class RecipeStore {
   };
 
   refreshDbRecipes = async () => {
-    const dbRecipes = await axios
-      .get("http://127.0.0.1:8000/recipes")
-      .then((result) => {
-        if (result?.data) {
-          runInAction(() => {
-            this.dbRecipes = result.data.sort((a, b) =>
-              a.strMeal.localeCompare(b.strMeal)
-            );
-          });
-        }
-      });
+    await axios.get("http://127.0.0.1:8000/recipes").then((result) => {
+      if (result?.data) {
+        runInAction(() => {
+          this.dbData = [
+            ...this.dbData,
+            ...result.data
+              .slice()
+              .sort((a, b) => a.strMeal.localeCompare(b.strMeal)),
+          ];
+        });
+      }
+    });
   };
 
   deleteDbRecipe = async (id) => {
-    await axios
-      .delete(`http://127.0.0.1:8000/recipes/${id}`)
-      .then(async (result) => {
-        await this.refreshDbRecipes();
-      });
+    await axios.delete(`http://127.0.0.1:8000/recipes/${id}`);
   };
 
   setDialogOpen = () => {
@@ -63,8 +68,13 @@ export default class RecipeStore {
       });
     });
   };
+
   get randomRecipe() {
     return this.recipe;
+  }
+
+  get entities() {
+    return [...this.dbData.slice()] || [];
   }
 
   get ingredientsAndMeasurements() {

@@ -1,11 +1,11 @@
 import { NasaComponent } from "../views/components";
-import { NoteViewContainer } from "../views/containers";
 import RecipeContainer from "../views/Recipes/RecipeContainer";
 import CalenderContainer from "../views/Calendar/CalenderContainer.";
+import NotesContainer from "../views/Notes/NotesContainer";
 
 export const viewMap = {
   Nasa: <NasaComponent />,
-  PostItBoard: <NoteViewContainer />,
+  Notes: <NotesContainer />,
   Recipes: <RecipeContainer />,
   Calendar: <CalenderContainer />,
 };

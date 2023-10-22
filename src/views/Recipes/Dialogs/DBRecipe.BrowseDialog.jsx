@@ -29,62 +29,80 @@ class DBRecipeBrowseDialog extends PureComponent {
     this.bgcolor =
       String(type) === "mouseenter" ? "#9aacb2" : "background.paper";
   };
-
+  //TODO: Add option to restore recipes if accidently deleted
   render() {
     const {
       open,
-      recipeStore: {
-        setDialogOpen,
-        dbRecipes,
-        setRandomRecipe,
-        deleteDbRecipe,
-      },
+      recipeStore: { setDialogOpen, entities, setRandomRecipe, deleteDbRecipe },
+      notificationStore: { addNotification },
     } = this.props;
     return (
       <>
         <Dialog open={open} keepMounted>
           <DialogTitle>{"Browse Recipe"}</DialogTitle>
           <DialogContent>
-            <List
-              sx={{
-                width: "100%",
-              }}
-            >
-              {dbRecipes?.slice().map((recipe) => {
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      bgcolor: "gray",
-                    }}
-                  >
-                    <ListItem
-                      sx={{
+            {entities && entities.length ? (
+              <List
+                sx={{
+                  width: "100%",
+                }}
+              >
+                {entities?.slice().map((recipe) => {
+                  return (
+                    <div
+                      style={{
                         display: "flex",
+                        justifyContent: "center",
                         bgcolor: "gray",
                       }}
-                      onMouseEnter={this.setBgColor}
-                      onMouseLeave={this.setBgColor}
-                      onClick={() => setRandomRecipe(recipe)}
                     >
-                      {recipe.strMeal}
-                    </ListItem>
-                    <Tooltip title={`Delete ${recipe.strMeal || "meal"}`}>
-                      <span style={{ justifyContent: "center" }}>
-                        <Button
-                          onClick={async () => await deleteDbRecipe(recipe.id)}
-                          variant="contained"
-                          color="error"
-                        >
-                          <DeleteForeverIcon />
-                        </Button>
-                      </span>
-                    </Tooltip>
-                  </div>
-                );
-              })}
-            </List>
+                      <ListItem
+                        sx={{
+                          display: "flex",
+                          bgcolor: "gray",
+                        }}
+                        onMouseEnter={this.setBgColor}
+                        onMouseLeave={this.setBgColor}
+                        onClick={() => setRandomRecipe(recipe)}
+                      >
+                        {recipe.strMeal}
+                      </ListItem>
+                      <Tooltip title={`Delete ${recipe.strMeal || "meal"}`}>
+                        <span style={{ justifyContent: "center" }}>
+                          <Button
+                            onClick={async () => {
+                              try {
+                                await deleteDbRecipe(recipe.id).then(() => {
+                                  addNotification(
+                                    `${
+                                      recipe.strMeal || "Recipe"
+                                    } has been deleted.`,
+                                    { variant: "success" }
+                                  );
+                                });
+                              } catch {
+                                addNotification(
+                                  `${
+                                    recipe.strMeal || Recipe
+                                  } couldn't be deleted. `,
+                                  { variant: "error" }
+                                );
+                              }
+                            }}
+                            variant="contained"
+                            color="error"
+                          >
+                            <DeleteForeverIcon />
+                          </Button>
+                        </span>
+                      </Tooltip>
+                    </div>
+                  );
+                })}
+              </List>
+            ) : (
+              <>No recipes</>
+            )}
           </DialogContent>
           <DialogActions>
             <Button variant="contained" onClick={() => setDialogOpen()}>
@@ -97,4 +115,7 @@ class DBRecipeBrowseDialog extends PureComponent {
   }
 }
 
-export default inject("recipeStore")(observer(DBRecipeBrowseDialog));
+export default inject(
+  "recipeStore",
+  "notificationStore"
+)(observer(DBRecipeBrowseDialog));

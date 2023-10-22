@@ -27,14 +27,24 @@ class CreateEventDialog extends PureComponent {
     const {
       calenderStore: { event },
     } = this.props;
-    console.log(!!event);
-    if (!!event) return true;
+    console.log(!event);
+    if (!Object.keys(event)?.length) return true;
+    if (
+      !event?.eventTitle ||
+      !event?.eventBody ||
+      !event?.eventDateStart ||
+      !event?.eventDateEnd ||
+      !event?.eventTimeStart ||
+      !event?.eventTimeEnd
+    )
+      return true;
     return false;
   }
 
   render() {
     const {
-      calenderStore: { open, setDialogOpen, setValue, newEvent },
+      calenderStore: { open, setDialogOpen, setValue, newEvent, createEvent },
+      notificationStore: { addNotification },
     } = this.props;
 
     return (
@@ -98,7 +108,22 @@ class CreateEventDialog extends PureComponent {
               color="success"
               variant="contained"
               disabled={this.validateSubmit}
-              onClick={() => {}}
+              onClick={async () => {
+                await createEvent().then(() => {
+                  try {
+                    newEvent();
+                    setDialogOpen();
+                    addNotification("Event Created!", { variant: "success" });
+                  } catch {
+                    newEvent();
+                    setDialogOpen();
+                    addNotification(
+                      "An error occured when trying to create an event!",
+                      { variant: "error" }
+                    );
+                  }
+                });
+              }}
             >
               Create
             </Button>
@@ -119,4 +144,7 @@ class CreateEventDialog extends PureComponent {
   }
 }
 
-export default inject("calenderStore")(observer(CreateEventDialog));
+export default inject(
+  "calenderStore",
+  "notificationStore"
+)(observer(CreateEventDialog));

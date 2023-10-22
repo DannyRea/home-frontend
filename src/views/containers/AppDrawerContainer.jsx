@@ -18,9 +18,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { inject, observer } from "mobx-react";
 import { computed, makeObservable, action, observable } from "mobx";
-import { NasaComponent } from "../components";
 import { viewMap } from "../../config/viewMap";
 import { RouterView } from "mobx-state-router";
+import { Container } from "@mui/material";
 const drawerWidth = 240;
 
 class AppDrawerContainer extends React.PureComponent {
@@ -56,7 +56,7 @@ class AppDrawerContainer extends React.PureComponent {
     } = this.props;
 
     return (
-      <Box sx={{ display: "flex" }}>
+      <>
         <CssBaseline />
         <AppBar
           position="fixed"
@@ -118,17 +118,17 @@ class AppDrawerContainer extends React.PureComponent {
             </div>
           </Drawer>
         </Box>
+
         <Box
-          component="main"
           sx={{
-            flexGrow: 1,
-            p: 3,
-            minWidth: "fit-content",
+            p: 10,
+            minHeight: window.height,
+            ml: { sm: `${drawerWidth / 2}px` },
           }}
         >
           <RouterView viewMap={viewMap} />
         </Box>
-      </Box>
+      </>
     );
   }
 }
